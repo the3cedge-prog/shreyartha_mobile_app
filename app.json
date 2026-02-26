@@ -1,29 +1,32 @@
 {
   "expo": {
-    "name": "shreyartha_mobile_app",
-    "slug": "shreyartha_mobile_app",
+    "name": "Shreyartha",
+    "slug": "shreyartha-mobile-app",
     "version": "1.0.0",
+    "scheme": "shreyartha",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "platforms": ["ios", "android"],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "bundleIdentifier": "com.shreyartha.mobileapp",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.shreyartha.mobileapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true
+      }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "bundler": "metro"
+    },
+    "plugins": ["expo-router"]
   }
 }
