@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet, Dimensions, Linking } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS, SPACING } from '../constants/theme';
+import SearchBar from './components/SearchBar';
 
 const { width } = Dimensions.get('window');
 
@@ -42,7 +43,7 @@ export default function LandingScreen() {
   ];
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
       {/* Header */}
       <View style={styles.header}>
         <Image source={{ uri: 'https://the3cedge.com/assets/img/logo.png' }} style={styles.logo} resizeMode="contain" />
@@ -51,16 +52,37 @@ export default function LandingScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Search Bar - Mirrors website's SearchBar component */}
+      <SearchBar />
+
+      {/* Tagline Section */}
+      <View style={styles.taglineSection}>
+        <Text style={styles.taglineText}>
+          Y<Text style={styles.taglineSpecial}>Ø</Text>UR L
+          <Text style={styles.taglineSpecial}>E</Text>ARNING. OUR{' '}
+          <Text style={styles.taglineAI}>AI</Text> INT
+          <Text style={styles.taglineSpecial}>E</Text>LLIG
+          <Text style={styles.taglineSpecial}>E</Text>NC
+          <Text style={styles.taglineSpecial}>E</Text>.
+        </Text>
+      </View>
+
       {/* Hero Section */}
       <View style={styles.hero}>
-        <Text style={styles.heroTagline}>Your Success, Our Mission</Text>
-        <Text style={styles.heroTitle}>Empowering Students{'\n'}to Achieve More</Text>
-        <Text style={styles.heroSubtitle}>
-          The comprehensive platform for academic excellence, career guidance, and personal growth.
+        <Text style={styles.heroTitle}>
+          Unlock Your <Text style={styles.heroHighlight}>Potential</Text>
         </Text>
-        <TouchableOpacity style={styles.ctaButton} onPress={() => router.push('/auth/login-select')}>
-          <Text style={styles.ctaButtonText}>Get Started</Text>
-        </TouchableOpacity>
+        <Text style={styles.heroSubtitle}>
+          Empowering students with personalized education, career guidance, and skill development for a brighter future.
+        </Text>
+        <View style={styles.heroButtons}>
+          <TouchableOpacity style={styles.ctaButton} onPress={() => router.push('/auth/student-login')}>
+            <Text style={styles.ctaButtonText}>Get Started</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.ctaSecondary} onPress={() => router.push('/auth/login-select')}>
+            <Text style={styles.ctaSecondaryText}>Learn More</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Stats Section */}
@@ -135,7 +157,7 @@ export default function LandingScreen() {
           Our mission is to empower every student to discover their unique potential and achieve their academic and career goals.
         </Text>
         <View style={styles.highlightsList}>
-          {['Personalized Learning Paths', 'Expert Career Counseling', 'AI-Powered Insights', 'Global University Network'].map((item, idx) => (
+          {['Personalized Learning Paths', 'Expert Career Counseling', 'Psychometric Assessments', 'University Placement Support'].map((item, idx) => (
             <View key={idx} style={styles.highlightItem}>
               <Text style={styles.highlightCheck}>✓</Text>
               <Text style={styles.highlightText}>{item}</Text>
@@ -144,16 +166,61 @@ export default function LandingScreen() {
         </View>
       </View>
 
+      {/* CTA Section */}
+      <View style={styles.ctaSection}>
+        <Text style={styles.ctaSectionTitle}>Ready to Start Your Journey?</Text>
+        <Text style={styles.ctaSectionSubtitle}>Join thousands of students who have already discovered their potential with The 3C Edge.</Text>
+        <TouchableOpacity style={styles.ctaSectionButton} onPress={() => router.push('/auth/student-login')}>
+          <Text style={styles.ctaSectionButtonText}>Sign Up Now</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Contact Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Get In Touch</Text>
+        <Text style={styles.sectionSubtitle}>Have questions? We'd love to hear from you.</Text>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactIcon}>📧</Text>
+          <View>
+            <Text style={styles.contactLabel}>Email</Text>
+            <Text style={styles.contactValue}>info@the3cedge.com</Text>
+          </View>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactIcon}>📞</Text>
+          <View>
+            <Text style={styles.contactLabel}>Phone</Text>
+            <Text style={styles.contactValue}>+91 98765 43210</Text>
+          </View>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactIcon}>📍</Text>
+          <View>
+            <Text style={styles.contactLabel}>Address</Text>
+            <Text style={styles.contactValue}>New Delhi, India</Text>
+          </View>
+        </View>
+      </View>
+
       {/* Footer */}
       <View style={styles.footer}>
         <Image source={{ uri: 'https://the3cedge.com/assets/img/logo.png' }} style={styles.footerLogo} resizeMode="contain" />
         <Text style={styles.footerDesc}>Empowering students to achieve their full potential through personalized education and career guidance.</Text>
-        <View style={styles.footerLinks}>
+        <View style={styles.socialRow}>
           <TouchableOpacity onPress={() => Linking.openURL('https://www.facebook.com/share/1FKwumKTsB/')}>
-            <Text style={styles.footerLink}>📘 Facebook</Text>
+            <Text style={styles.socialIcon}>📘</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/shreyarthaeducation?igsh=MnhrYWRjOWxtNndn')}>
+            <Text style={styles.socialIcon}>📸</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Linking.openURL('https://www.linkedin.com/company/the-3c-edge/')}>
+            <Text style={styles.socialIcon}>💼</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Linking.openURL('https://youtube.com/@shreyarthaeducation?si=asHvya8dQG61NBxB')}>
+            <Text style={styles.socialIcon}>▶️</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Linking.openURL('https://shreyartha.com')}>
-            <Text style={styles.footerLink}>🌐 Website</Text>
+            <Text style={styles.socialIcon}>🌐</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.footerCopy}>© 2025 The 3C Edge. All rights reserved.</Text>
@@ -178,16 +245,34 @@ const styles = StyleSheet.create({
   },
   loginBtnText: { color: COLORS.white, fontWeight: '600', fontSize: 14 },
 
+  // Tagline
+  taglineSection: {
+    paddingVertical: SPACING.lg, paddingHorizontal: SPACING.lg,
+    backgroundColor: COLORS.white, alignItems: 'center',
+  },
+  taglineText: {
+    fontSize: 16, fontWeight: '800', color: COLORS.secondary,
+    textAlign: 'center', letterSpacing: 2,
+  },
+  taglineSpecial: { color: COLORS.primary, fontSize: 18 },
+  taglineAI: {
+    color: COLORS.white, backgroundColor: COLORS.primary,
+    paddingHorizontal: 6, borderRadius: 4, overflow: 'hidden', fontSize: 16,
+  },
+
   // Hero
   hero: {
-    paddingHorizontal: SPACING.lg, paddingVertical: SPACING.xxl,
+    paddingHorizontal: SPACING.lg, paddingVertical: SPACING.xl,
     backgroundColor: COLORS.secondary, alignItems: 'center',
   },
-  heroTagline: { color: COLORS.primaryLight, fontSize: 14, fontWeight: '600', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 },
-  heroTitle: { color: COLORS.white, fontSize: 30, fontWeight: 'bold', textAlign: 'center', marginBottom: 16, lineHeight: 38 },
-  heroSubtitle: { color: '#aaa', fontSize: 15, textAlign: 'center', marginBottom: 28, lineHeight: 22 },
-  ctaButton: { backgroundColor: COLORS.primary, paddingVertical: 14, paddingHorizontal: 48, borderRadius: 32 },
-  ctaButtonText: { color: COLORS.white, fontSize: 16, fontWeight: '700' },
+  heroTitle: { color: COLORS.white, fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 16, lineHeight: 36 },
+  heroHighlight: { color: COLORS.primaryLight },
+  heroSubtitle: { color: '#aaa', fontSize: 15, textAlign: 'center', marginBottom: 24, lineHeight: 22 },
+  heroButtons: { flexDirection: 'row', gap: 12 },
+  ctaButton: { backgroundColor: COLORS.primary, paddingVertical: 14, paddingHorizontal: 32, borderRadius: 32 },
+  ctaButtonText: { color: COLORS.white, fontSize: 15, fontWeight: '700' },
+  ctaSecondary: { borderWidth: 2, borderColor: COLORS.white, paddingVertical: 12, paddingHorizontal: 28, borderRadius: 32 },
+  ctaSecondaryText: { color: COLORS.white, fontSize: 15, fontWeight: '600' },
 
   // Stats
   statsSection: {
@@ -248,13 +333,32 @@ const styles = StyleSheet.create({
   highlightCheck: { color: COLORS.primary, fontWeight: 'bold', fontSize: 18, marginRight: 10 },
   highlightText: { fontSize: 14, color: COLORS.text },
 
+  // CTA Section
+  ctaSection: {
+    backgroundColor: COLORS.primary, paddingVertical: SPACING.xxl,
+    paddingHorizontal: SPACING.lg, alignItems: 'center',
+  },
+  ctaSectionTitle: { fontSize: 22, fontWeight: 'bold', color: COLORS.white, textAlign: 'center', marginBottom: 10 },
+  ctaSectionSubtitle: { fontSize: 14, color: 'rgba(255,255,255,0.8)', textAlign: 'center', marginBottom: 24, lineHeight: 22 },
+  ctaSectionButton: { backgroundColor: COLORS.white, paddingVertical: 14, paddingHorizontal: 40, borderRadius: 32 },
+  ctaSectionButtonText: { color: COLORS.primary, fontSize: 16, fontWeight: '700' },
+
+  // Contact
+  contactItem: {
+    flexDirection: 'row', alignItems: 'center', marginBottom: 16,
+    backgroundColor: COLORS.surface, padding: SPACING.md, borderRadius: 12,
+  },
+  contactIcon: { fontSize: 24, marginRight: 14 },
+  contactLabel: { fontSize: 12, color: COLORS.textLight, fontWeight: '600', textTransform: 'uppercase' },
+  contactValue: { fontSize: 15, color: COLORS.text, fontWeight: '500' },
+
   // Footer
   footer: {
     backgroundColor: COLORS.secondary, padding: SPACING.xl, alignItems: 'center',
   },
   footerLogo: { width: 100, height: 35, marginBottom: 12 },
   footerDesc: { color: '#aaa', fontSize: 13, textAlign: 'center', marginBottom: 16, lineHeight: 20 },
-  footerLinks: { flexDirection: 'row', gap: 24, marginBottom: 16 },
-  footerLink: { color: '#ccc', fontSize: 14 },
+  socialRow: { flexDirection: 'row', gap: 20, marginBottom: 16 },
+  socialIcon: { fontSize: 24 },
   footerCopy: { color: '#666', fontSize: 11 },
 });
