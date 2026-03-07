@@ -8,6 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // In production, use your deployed backend URL (e.g., https://api.shreyartha.com)
 const API_BASE_URL = 'https://shreyartha.com';
 
+const REQUEST_TIMEOUT_MS = 10000; // 10 seconds
+const MAX_RETRIES = 1;
+
 /**
  * Get stored token — checks all possible token storage locations.
  * Uses the endpoint to determine which token to prioritize.
@@ -48,7 +51,22 @@ const getStoredToken = async (endpoint = '') => {
   }
 };
 
-const apiFetch = async (endpoint, options = {}) => {
+/**
+ * Fetch with a timeout. Rejects if the request takes longer than timeoutMs.
+ */
+const fetchWithTimeout = (url, options, timeoutMs) => {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error('Request timed out. Please check your connection and try again.'));
+    }, timeoutMs);
+
+    fetch(url, options)
+      .then((res) => { clearTimeout(timer); resolve(res); })
+      .catch((err) => { clearTimeout(timer); reject(err); });
+  });
+};
+
+const apiFetch = async (endpoint, options = {}, attempt = 0) => {
   const token = await getStoredToken(endpoint);
 
   const headers = { ...(options.headers || {}) };
@@ -68,7 +86,16 @@ const apiFetch = async (endpoint, options = {}) => {
 
   const url = `${API_BASE_URL}${endpoint}`;
 
-  const response = await fetch(url, { ...options, headers });
+  let response;
+  try {
+    response = await fetchWithTimeout(url, { ...options, headers }, REQUEST_TIMEOUT_MS);
+  } catch (networkErr) {
+    // Retry once on network errors (timeout or connection failure)
+    if (attempt < MAX_RETRIES) {
+      return apiFetch(endpoint, options, attempt + 1);
+    }
+    throw networkErr;
+  }
 
   if (response.status === 401 || response.status === 403) {
     const contentType = response.headers.get('content-type') || '';

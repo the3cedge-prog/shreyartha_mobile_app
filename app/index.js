@@ -223,7 +223,7 @@ export default function LandingScreen() {
             <Text style={styles.socialIcon}>🌐</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.footerCopy}>© 2025 The 3C Edge. All rights reserved.</Text>
+        <Text style={styles.footerCopy}>© 2026 The 3C Edge. All rights reserved.</Text>
       </View>
     </ScrollView>
   );
